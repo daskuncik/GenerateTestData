@@ -1,0 +1,470 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище GDT_DataBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Func">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="OutTypeId" Type="int" Nullable="false" />
+          <Property Name="SearchInfoId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InputParam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="FuncId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
+          <Property Name="Path" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuickSearch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProjectId" Type="int" />
+          <Property Name="Path" Type="varchar(max)" />
+          <Property Name="ByteNum" Type="int" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar(max)" Nullable="false" />
+          <Property Name="UserType" Type="varchar" MaxLength="50" />
+          <Property Name="SearchInfoId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Variable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="Qualifier" Type="varchar" MaxLength="50" />
+          <Property Name="SearchInfoId" Type="int" Nullable="false" />
+          <Property Name="Value" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Func">
+          <End Role="Func" Type="Self.Func" Multiplicity="1" />
+          <End Role="InputParam" Type="Self.InputParam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Func">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InputParam">
+              <PropertyRef Name="FuncId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="QuickSearch" Type="Self.QuickSearch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuickSearch">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Search">
+          <End Role="QuickSearch" Type="Self.QuickSearch" Multiplicity="1" />
+          <End Role="Func" Type="Self.Func" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuickSearch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Func">
+              <PropertyRef Name="SearchInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Type">
+          <End Role="Type" Type="Self.Type" Multiplicity="1" />
+          <End Role="Func" Type="Self.Func" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Func">
+              <PropertyRef Name="OutTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Type_fromInput">
+          <End Role="Type" Type="Self.Type" Multiplicity="1" />
+          <End Role="InputParam" Type="Self.InputParam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InputParam">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VarSearch">
+          <End Role="QuickSearch" Type="Self.QuickSearch" Multiplicity="1" />
+          <End Role="Variable" Type="Self.Variable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuickSearch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Variable">
+              <PropertyRef Name="SearchInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VarType">
+          <End Role="Type" Type="Self.Type" Multiplicity="1" />
+          <End Role="Variable" Type="Self.Variable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Variable">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище GDT_DataBaseModelContainer">
+          <EntitySet Name="Func" EntityType="Self.Func" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InputParam" EntityType="Self.InputParam" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuickSearch" EntityType="Self.QuickSearch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Type" EntityType="Self.Type" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Variable" EntityType="Self.Variable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Func" Association="Self.FK_Func">
+            <End Role="Func" EntitySet="Func" />
+            <End Role="InputParam" EntitySet="InputParam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project" Association="Self.FK_Project">
+            <End Role="Project" EntitySet="Project" />
+            <End Role="QuickSearch" EntitySet="QuickSearch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Search" Association="Self.FK_Search">
+            <End Role="QuickSearch" EntitySet="QuickSearch" />
+            <End Role="Func" EntitySet="Func" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Type" Association="Self.FK_Type">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Func" EntitySet="Func" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Type_fromInput" Association="Self.FK_Type_fromInput">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="InputParam" EntitySet="InputParam" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VarSearch" Association="Self.FK_VarSearch">
+            <End Role="QuickSearch" EntitySet="QuickSearch" />
+            <End Role="Variable" EntitySet="Variable" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VarType" Association="Self.FK_VarType">
+            <End Role="Type" EntitySet="Type" />
+            <End Role="Variable" EntitySet="Variable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="GDT_DataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Func">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="OutTypeId" Type="Int32" Nullable="false" />
+          <Property Name="SearchInfoId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="InputParams" Relationship="Self.FK_Func" FromRole="Func" ToRole="InputParam" />
+          <NavigationProperty Name="QuickSearch" Relationship="Self.FK_Search" FromRole="Func" ToRole="QuickSearch" />
+          <NavigationProperty Name="Type" Relationship="Self.FK_Type" FromRole="Func" ToRole="Type" />
+        </EntityType>
+        <EntityType Name="InputParam">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="FuncId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Func" Relationship="Self.FK_Func" FromRole="InputParam" ToRole="Func" />
+          <NavigationProperty Name="Type" Relationship="Self.FK_Type_fromInput" FromRole="InputParam" ToRole="Type" />
+        </EntityType>
+        <EntityType Name="Project">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Path" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="QuickSearches" Relationship="Self.FK_Project" FromRole="Project" ToRole="QuickSearch" />
+        </EntityType>
+        <EntityType Name="QuickSearch">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProjectId" Type="Int32" />
+          <Property Name="Path" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ByteNum" Type="Int32" />
+          <NavigationProperty Name="Funcs" Relationship="Self.FK_Search" FromRole="QuickSearch" ToRole="Func" />
+          <NavigationProperty Name="Project" Relationship="Self.FK_Project" FromRole="QuickSearch" ToRole="Project" />
+          <NavigationProperty Name="Variables" Relationship="Self.FK_VarSearch" FromRole="QuickSearch" ToRole="Variable" />
+        </EntityType>
+        <EntityType Name="Type">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SearchInfoId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Funcs" Relationship="Self.FK_Type" FromRole="Type" ToRole="Func" />
+          <NavigationProperty Name="InputParams" Relationship="Self.FK_Type_fromInput" FromRole="Type" ToRole="InputParam" />
+          <NavigationProperty Name="Variables" Relationship="Self.FK_VarType" FromRole="Type" ToRole="Variable" />
+        </EntityType>
+        <EntityType Name="Variable">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="Qualifier" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="SearchInfoId" Type="Int32" Nullable="false" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="QuickSearch" Relationship="Self.FK_VarSearch" FromRole="Variable" ToRole="QuickSearch" />
+          <NavigationProperty Name="Type" Relationship="Self.FK_VarType" FromRole="Variable" ToRole="Type" />
+        </EntityType>
+        <Association Name="FK_Func">
+          <End Role="Func" Type="Self.Func" Multiplicity="1" />
+          <End Role="InputParam" Type="Self.InputParam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Func">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InputParam">
+              <PropertyRef Name="FuncId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Search">
+          <End Role="QuickSearch" Type="Self.QuickSearch" Multiplicity="1" />
+          <End Role="Func" Type="Self.Func" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuickSearch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Func">
+              <PropertyRef Name="SearchInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Type">
+          <End Role="Type" Type="Self.Type" Multiplicity="1" />
+          <End Role="Func" Type="Self.Func" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Func">
+              <PropertyRef Name="OutTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Type_fromInput">
+          <End Role="Type" Type="Self.Type" Multiplicity="1" />
+          <End Role="InputParam" Type="Self.InputParam" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InputParam">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Project">
+          <End Role="Project" Type="Self.Project" Multiplicity="0..1" />
+          <End Role="QuickSearch" Type="Self.QuickSearch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Project">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuickSearch">
+              <PropertyRef Name="ProjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VarSearch">
+          <End Role="QuickSearch" Type="Self.QuickSearch" Multiplicity="1" />
+          <End Role="Variable" Type="Self.Variable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuickSearch">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Variable">
+              <PropertyRef Name="SearchInfoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VarType">
+          <End Role="Type" Type="Self.Type" Multiplicity="1" />
+          <End Role="Variable" Type="Self.Variable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Type">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Variable">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="GDT_DataBaseEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Funcs" EntityType="Self.Func" />
+          <EntitySet Name="InputParams" EntityType="Self.InputParam" />
+          <EntitySet Name="Projects" EntityType="Self.Project" />
+          <EntitySet Name="QuickSearches" EntityType="Self.QuickSearch" />
+          <EntitySet Name="Types" EntityType="Self.Type" />
+          <EntitySet Name="Variables" EntityType="Self.Variable" />
+          <AssociationSet Name="FK_Func" Association="Self.FK_Func">
+            <End Role="Func" EntitySet="Funcs" />
+            <End Role="InputParam" EntitySet="InputParams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Search" Association="Self.FK_Search">
+            <End Role="QuickSearch" EntitySet="QuickSearches" />
+            <End Role="Func" EntitySet="Funcs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Type" Association="Self.FK_Type">
+            <End Role="Type" EntitySet="Types" />
+            <End Role="Func" EntitySet="Funcs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Type_fromInput" Association="Self.FK_Type_fromInput">
+            <End Role="Type" EntitySet="Types" />
+            <End Role="InputParam" EntitySet="InputParams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Project" Association="Self.FK_Project">
+            <End Role="Project" EntitySet="Projects" />
+            <End Role="QuickSearch" EntitySet="QuickSearches" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VarSearch" Association="Self.FK_VarSearch">
+            <End Role="QuickSearch" EntitySet="QuickSearches" />
+            <End Role="Variable" EntitySet="Variables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VarType" Association="Self.FK_VarType">
+            <End Role="Type" EntitySet="Types" />
+            <End Role="Variable" EntitySet="Variables" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище GDT_DataBaseModelContainer" CdmEntityContainer="GDT_DataBaseEntities">
+          <EntitySetMapping Name="Funcs">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.Func">
+              <MappingFragment StoreEntitySet="Func">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="OutTypeId" ColumnName="OutTypeId" />
+                <ScalarProperty Name="SearchInfoId" ColumnName="SearchInfoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InputParams">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.InputParam">
+              <MappingFragment StoreEntitySet="InputParam">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="FuncId" ColumnName="FuncId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Projects">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.Project">
+              <MappingFragment StoreEntitySet="Project">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuickSearches">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.QuickSearch">
+              <MappingFragment StoreEntitySet="QuickSearch">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
+                <ScalarProperty Name="Path" ColumnName="Path" />
+                <ScalarProperty Name="ByteNum" ColumnName="ByteNum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Types">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.Type">
+              <MappingFragment StoreEntitySet="Type">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="SearchInfoId" ColumnName="SearchInfoId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Variables">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.Variable">
+              <MappingFragment StoreEntitySet="Variable">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="Qualifier" ColumnName="Qualifier" />
+                <ScalarProperty Name="SearchInfoId" ColumnName="SearchInfoId" />
+                <ScalarProperty Name="Value" ColumnName="Value" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
