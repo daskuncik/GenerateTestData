@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 
 namespace GDT_EA
 {
-    
+    //Parse C-file & put info to DB
     public class Parser
     {
         public Parser()

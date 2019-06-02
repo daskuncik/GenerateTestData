@@ -24,6 +24,9 @@ namespace GDT_EA.Classes.FunctionItems
             op_list.AddRange(lst);
         }
 
+        public int Count() { return op_list.Count; }
+
+        public IItem getItem(int i) { return op_list[i]; }
         
     }
 }

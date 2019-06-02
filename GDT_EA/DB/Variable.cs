@@ -17,11 +17,11 @@ namespace GDT_EA.DB
         public int Id { get; set; }
         public string Name { get; set; }
         public int TypeId { get; set; }
-        public int Qualifier { get; set; }
+        public Nullable<int> Qualifier { get; set; }
         public int SearchInfoId { get; set; }
         public string Value { get; set; }
-        public bool IsPointer { get; set; }
-
+        public Nullable<bool> IsPointer { get; set; }
+    
         public virtual QuickSearch QuickSearch { get; set; }
         public virtual Type Type { get; set; }
     }

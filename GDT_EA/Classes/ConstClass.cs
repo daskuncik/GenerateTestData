@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace GDT_EA.Classes
 {
+    
+
+
     static class ConstClass
     {
         public enum QuaTypes
@@ -17,7 +20,7 @@ namespace GDT_EA.Classes
             Struct,
             TypeDef
         }
-       
+        
         public static  Dictionary<int, string> Qualifiers = new  Dictionary<int, string>()
         {
             {(int)QuaTypes.Extern,"extern" },
@@ -43,6 +46,19 @@ namespace GDT_EA.Classes
             Return,
             Increment
         }
+
+        //public enum OperationType
+        //{
+        //    LessEq = 0,
+        //    MoreEq,
+        //    Less,
+        //    More,
+        //    Eq,
+        //    NotEq
+        //}
+
+        
+
         public const string semicolon = ";";
         public const string _if = "if";
         public const string eq = "=";
