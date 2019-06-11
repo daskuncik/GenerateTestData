@@ -31,5 +31,14 @@ namespace GDT_EA.Classes
             get;
             set;
         }
+
+        public override bool Equals(object obj)
+        {
+            var token = obj as Token;
+            return Name == token.Name &&
+                    Value == token.Value &&
+                    Line == token.Line &&
+                    Column == token.Column;
+        }
     }
 }

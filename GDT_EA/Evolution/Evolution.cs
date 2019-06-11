@@ -13,10 +13,12 @@ namespace GDT_EA.Evolutions
     {
         List<Instance> population;
         const double minFitness = 0.85;
+        const double d = 0.25;
+        const double a = 0.67;
         int test_num;
         public Dictionary<int, string> OperationType = new Dictionary<int, string>()
         {
-            {0, ">=" }, { 1, "<=" }, { 2, ">" }, { 3, "<" }, { 4, "!=" }, { 5, "==" }
+            {1, ">=" }, { 0, "<=" }, { 3, ">" }, { 2, "<" }, { 5, "!=" }, { 4, "==" }
         };
         private Dictionary<int, int> opposit = new Dictionary<int, int>() { {0, 3 }, { 3, 0}, { 1, 2 }, {2, 1 }, { 4, 5}, {5, 4 } };
         const int N = 10;
@@ -73,7 +75,7 @@ namespace GDT_EA.Evolutions
             List<Instance> children; //= createNewPopulation();
             do
             {
-                children = createNewPopulation();
+                children = createNewPopulation_all(1);
 
                 fillPopulationDetails(ref children);
 
@@ -100,7 +102,42 @@ namespace GDT_EA.Evolutions
             } while ( allTrue < 0 && ++iteration < 100);
             if (iteration < 100)
                 return population[allTrue].getValue();
-            return -10;
+            return Int32.MinValue;
+        }
+
+        public int ResearchSolve(int parent_way, int combination_way, int selection_way, ref int iter)
+        {
+            population = randPopulation(N);
+            fillPopulationDetails(ref population);
+            int iteration = 0;
+            int allTrue = isFullTrue();
+            List<Instance> children;
+            do
+            {
+                children = null;
+                switch (parent_way)
+                {
+                    case 1: //all parents
+                        {
+                            children = createNewPopulation_all(combination_way);
+                            break;
+                        }
+                    case 2:
+                        {
+                            children = ParentSelection_nearest(combination_way);
+                            break;
+                        }
+                    default: break;
+                }
+                if (children == null) return Int32.MinValue;
+                fillPopulationDetails(ref children);
+                population = Selection(population, children, selection_way);
+                allTrue = isFullTrue();
+            } while (allTrue < 0 && ++iteration < 100);
+            iter = iteration;
+            if (iteration < 100)
+                return population[allTrue].getValue();
+            return Int32.MinValue;
         }
 
         public List<Instance> randPopulation(int count, int min = Int32.MinValue, int max = Int32.MaxValue)
@@ -135,38 +172,140 @@ namespace GDT_EA.Evolutions
             return _population;
         }
 
-        public List<Instance> createNewPopulation()
+        public List<Instance> createNewPopulation_all(int way)
         {
             List<Instance> children = new List<Instance>();
-            InstanceComparer comparer = new InstanceComparer();
-            int counter = 0;
             int a;
             for (int i=0; i < population.Count; i++)
                 for (int j=i+1; j< population.Count; j++)
                 {
-                    Instance child = new Instance();
                     int val1 = population[i].getValue();
                     int val2 = population[j].getValue();
-                    if (Math.Abs(val1 - val2) <= 3)
-                        continue;
-                    if (val1 < val2)
-                        do
-                        {
-                            child.createRandom(val2, val1);
-                            counter++;
-                        } while (children.Contains(child, comparer) && counter < N);
-                    else
-                        do {
-                            child.createRandom(val1, val2);
-                            counter++;
-                        } while (children.Contains(child, comparer) && counter < N);
-                    if (counter < N)
-                        children.Add(child);
-                    else
-                        a = 10;
-                    counter = 0;
+
+                    List<Instance> ch = createChild(val1, val2, children, way);
+                    children.AddRange(ch);
                 }
             return children;
+        }
+
+        private List<Instance> createChild(int p1_val, int p2_val, List<Instance> children, int way)
+        {
+            List<Instance> ch_2 = new List<Instance>();
+            InstanceComparer comparer = new InstanceComparer();
+            Instance child = new Instance();
+            int counter = 0;
+            switch (way)
+            {
+                case 1:
+                    {
+                        if (Math.Abs(p1_val - p2_val) <= 3)
+                            break;
+                        if (p1_val < p2_val)
+                        {
+                            int k = p1_val;
+                            p1_val = p2_val;
+                            p2_val = k;
+                        }
+                            do
+                            {
+                                child.createRandom(p1_val, p2_val);
+                                counter++;
+                            } while (children.Contains(child, comparer) && counter < N);
+                        ch_2.Add(child);
+                        break;
+                    }
+                case 2:
+                    {
+                        child.setValue((p1_val + p2_val) / 2);
+                        ch_2.Add(child);
+                        break;
+                    }
+                case 3:
+                    {
+                        int e = (int)(p1_val + a * (p2_val - p1_val));
+                        child.setValue(e);
+                        ch_2.Add(child);
+                        child = new Instance();
+                        e = (int)(p2_val + a * (p1_val - p2_val));
+                        child.setValue(e);
+                        ch_2.Add(child);
+                        break;
+                    }
+            }
+            return ch_2;
+        }
+
+        private List<Instance> ParentSelection_nearest(int way)
+        {
+            List<Instance> children = new List<Instance>();
+            InstanceComparer comparer = new InstanceComparer();
+            List<int> selected = new List<int>();
+            int counter = 0;
+            Random r = new Random();
+            for (int i=0; i < population.Count/2; i++)
+            {
+                int index = 0;
+                do
+                {
+                    index = r.Next(0, population.Count - 1);
+                    counter++;
+                } while (selected.Contains(index) && counter < 10);
+                selected.Add(index);
+                int min = Math.Abs(population[0].getValue() - population[1].getValue());
+                int ind2 = 0;
+                for (int j=0; j<population.Count; j++)
+                {
+                    if (j == index) continue;
+                    if (Math.Abs(population[index].getValue() - population[j].getValue()) < min)
+                    {
+                        min = Math.Abs(population[index].getValue() - population[j].getValue());
+                        ind2 = j;
+                    }
+                }
+                List<Instance> ch = createChild(population[index].getValue(), population[ind2].getValue(), children, way);
+                children.AddRange(ch);
+            }
+            return children;
+        }
+
+        private List<Instance> Selection (List<Instance> parents, List<Instance> children, int way)
+        {
+            List<Instance> result = null ;
+            switch (way)
+            {
+                case 1:
+                    {
+                        children = children.OrderByDescending(s => s.Fitness).ToList();
+                        if (children.Count > N)
+                        {
+                            List<Instance> lst = children.GetRange(0, N);
+                            children.Clear();
+                            children = lst;
+                        }
+
+                        break;
+                    }
+                case 2:
+                    {
+                        children.AddRange(parents);
+                        children = children.OrderByDescending(s => s.Fitness).ToList();
+                        int index = GetIndexMinFitness(children);
+                        children = children.GetRange(0, index);
+                        break;
+                    }
+            }
+            int g = (int)(N / 6);
+            if (children.Count >= g )
+                result = children;
+            else
+            {
+                List<Instance> lst = randPopulation(N);
+                fillPopulationDetails(ref lst);
+                children.AddRange(lst);
+                result = children;
+            }
+            return result;
+            
         }
 
         private bool applyOperation(List<Instance> pop, int v_i, int p_i) //value-counter && population_counter
@@ -176,25 +315,26 @@ namespace GDT_EA.Evolutions
             {
                 case 1: operation = op[v_i].operation; break;
                 case 0: operation = opposit[op[v_i].operation]; break;
+                case -1: return true;
                 default: break;
             }
             //if (op[v_i].goal[test_num])
             //    operation = op[v_i].operation;
             //else
             //    operation = opposit[op[v_i].operation];
-            switch ( op[v_i].operation)
+            switch ( operation)
             {
-                case 5:
-                    return op[v_i].value == pop[p_i].getValue();
-                case 3:
-                    return op[v_i].value > pop[p_i].getValue();
-                case 1:
-                    return op[v_i].value >= pop[p_i].getValue();
-                case 2:
-                    return op[v_i].value < pop[p_i].getValue();
-                case 0:
-                    return op[v_i].value <= pop[p_i].getValue();
                 case 4:
+                    return op[v_i].value == pop[p_i].getValue();
+                case 2:
+                    return op[v_i].value > pop[p_i].getValue();
+                case 0:
+                    return op[v_i].value >= pop[p_i].getValue();
+                case 3:
+                    return op[v_i].value < pop[p_i].getValue();
+                case 1:
+                    return op[v_i].value <= pop[p_i].getValue();
+                case 5:
                     return op[v_i].value != pop[p_i].getValue();
             }
             return false;
@@ -210,12 +350,6 @@ namespace GDT_EA.Evolutions
             }
             return -1;
         }
-
-        //public void addCondition(int _operation, int _value)
-        //{
-        //    operations.Add(_operation);
-        //    values.Add(_value);
-        //}
 
         private void fillPopulationDetails(ref List<Instance> lst)
         {
@@ -260,6 +394,27 @@ namespace GDT_EA.Evolutions
             ins.setValue(11);
             population.Add(ins);
 
+        }
+
+        private int GetIndexMinFitness(List<Instance> pop)
+        {
+            double avg_f = 0;
+            int result_index = 0;
+            foreach (var element in pop)
+            {
+                avg_f += element.Fitness;
+            }
+            avg_f /= pop.Count;
+
+            for (int i=0; i<pop.Count; i++)
+            {
+                if (pop[i].Fitness < avg_f)
+                {
+                    result_index = i;
+                    break;
+                }
+            }
+            return result_index;
         }
     }
 }

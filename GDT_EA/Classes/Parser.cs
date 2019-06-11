@@ -17,9 +17,9 @@ namespace GDT_EA
     {
         public Parser()
         {
-            db = new GDT_DataBaseEntities();
+            db = new GDT_DBEntities();
         }
-        GDT_DataBaseEntities db;
+        GDT_DBEntities db;
         StreamReader reader;
         int curr_project;
         string curr_path;
@@ -30,16 +30,15 @@ namespace GDT_EA
         string pattern_define_var = @"^(#define) (.+) ([^\/]+)\n";
         string pattern_ifndef = @"^ifndef .*";
         string pattern_typedef = @"^(typedef)\s(\S+)\s((\w+)|(\((.+)\)\((.+)\)));";
-        string pattern_func = @" ^ (.+) (.+)\((.*)\);?";
+        string pattern_func = @"^(.+) (.+)\((.*)\);?";
         string pattren_func_opredelenie = @"^(.+)\s(.+)\s?\((.+)\)\n?{(.+)}";
         string pattern_struct = @"struct (.+)\s?{?";
         int line_num;
 
-        public void Create_project(string name, string descr, string path)
+        public void Create_project(string name, string path)
         {
             Project pr = new Project();
             pr.Name = name;
-            pr.Description = descr;
             pr.Path = path;
 
             db.Projects.Add(pr);
@@ -119,6 +118,7 @@ namespace GDT_EA
 
             }
         }
+
         private void create_global_var(string line, string new_path, int position)
         {
             string type = Regex.Match(line, pattern_global_vars).Groups[2].Value;

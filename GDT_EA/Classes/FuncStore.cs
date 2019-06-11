@@ -19,36 +19,44 @@ namespace GDT_EA.Classes
         //имя функции
         string name;
         
+        public FuncStore(string funcBody)
+        {
+            allfunction = funcBody;
+            string func_cut = Trim(funcBody);
+            string pattern = @"\n{1,}";
+            Regex reg = new Regex(pattern);
+            func_cut = reg.Replace(func_cut, "");
+            vars = new Dictionary<string, string>();
+            list = new List<IItem>();
+            CreateInstructions(func_cut);
+        }
+
         public FuncStore(string path, int pos)
         {
             vars = new Dictionary<string, string>();
-            StreamReader reader = new StreamReader(path);
             list = new List<IItem>();
-            string line = String.Empty;
-            int i;
-            if (pos > 0)
-            {
-                for (i = 0; i < pos; i++)
-                    line = reader.ReadLine();
-                //start read func
-                line = reader.ReadLine();
-            }
+            string func_cut = ReadFunction(path, pos);
+            CreateInstructions(func_cut);
+        }
+
+        /// отдает дерево операций
+        public List<IItem> getInstructions()
+        {
+            return list;
+        }
+
+        public string getFuncText() { return allfunction;  }
+
+        public void Clear()
+        {
+            vars.Clear();
+            list.Clear();
+        }
+
+        private void CreateInstructions(string func_body)
+        {
             string pattern;
             Regex reg;
-            i = pos;
-
-            //считать шапку
-            line = reader.ReadLine();
-            string func_body = line;
-
-            while (line != "}")
-            {
-                line = reader.ReadLine();
-                line = Trim(line);
-                func_body += line;
-            }
-            reader.Close();
-            allfunction = func_body;
             //взять название и тело функции
             pattern = @"(.+)\s(.+)\s{1,}\((.+)?\)\{(.+)\}";
             reg = new Regex(pattern);
@@ -74,13 +82,35 @@ namespace GDT_EA.Classes
             list = ParseFunction(func_body);
         }
 
-        /// отдает дерево операций
-        public List<IItem> getInstructions()
+        private string ReadFunction(string path, int pos)
         {
-            return list;
-        }
+            StreamReader reader = new StreamReader(path);
+            string line = String.Empty;
+            int i;
+            if (pos > 0)
+            {
+                for (i = 0; i < pos; i++)
+                    line = reader.ReadLine();
+                //start read func
+                line = reader.ReadLine();
+            }
 
-        public string getFuncText() { return allfunction;  }
+            i = pos;
+
+            //считать шапку
+            line = reader.ReadLine();
+            string func_body = line;
+
+            while (line != "}")
+            {
+                line = reader.ReadLine();
+                allfunction += line;
+                line = Trim(line);
+                func_body += line;
+            }
+            reader.Close();
+            return func_body;
+        }
 
         private List<IItem> ParseFunction(string func_body)
         {
@@ -223,6 +253,8 @@ namespace GDT_EA.Classes
             Regex reg = new Regex(pattern);
             line = reg.Replace(line, " ");
             pattern = @"\t+";
+            line = reg.Replace(line, "");
+            pattern = @"\n+";
             line = reg.Replace(line, "");
             return line;
         }

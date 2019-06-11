@@ -16,8 +16,7 @@ namespace GDT_EA.Evolutions
 
         public Instance()
         {
-            Random r = new Random();
-            Value = r.Next();
+            Value = Int32.MinValue;
             Difference = new List<int>();
             Conformity = new List<bool>();
         }

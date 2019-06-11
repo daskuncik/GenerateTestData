@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using GDT_EA.Classes.FunctionItems;
 
 namespace GDT_EA.Classes
 {
@@ -17,7 +17,10 @@ namespace GDT_EA.Classes
         string value;
         List<List<bool>> goal_true;
         List<List<bool>> goal_false;
+        bool compositeGoal;
+
         public Object() { }
+
         public Object(string str)
         { 
             value = str;
@@ -107,6 +110,8 @@ namespace GDT_EA.Classes
 
         }
 
+        public void setCompositeGoal (bool g) { compositeGoal = g; }
+
         public Object(Object obj1, byte op)
         {
             composite = new List<Classes.Object>();
@@ -135,10 +140,7 @@ namespace GDT_EA.Classes
             create_or();
         }
 
-        public int count()
-        {
-            return composite.Count();
-        }
+        public int count() { return composite.Count(); }
 
         private void create_and()
         {
@@ -460,5 +462,18 @@ namespace GDT_EA.Classes
         public List<Object> getCompositeList() { return composite; }
 
         public string getValue() { return value; }
+
+        public List<List<bool>> GetGoalValue(string line)
+        {
+            if (value != null && value == line)
+                return get_true();
+            for (int i=0; i<composite.Count; i++)
+            {
+                var q = composite[i].GetGoalValue(line);
+                if (q != null)
+                    return q;
+            }
+            return null;
+        }
     }
 }

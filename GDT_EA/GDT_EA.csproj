@@ -93,6 +93,7 @@
     <Compile Include="Classes\Object.cs" />
     <Compile Include="Classes\Token.cs" />
     <Compile Include="Classes\TokenStore.cs" />
+    <Compile Include="DB\DBFunctions.cs" />
     <Compile Include="DB\DB_Model.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -110,21 +111,6 @@
     </Compile>
     <Compile Include="DB\Func.cs">
       <DependentUpon>DB_Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\GDT_model.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GDT_model.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\GDT_model.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GDT_model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DB\GDT_model.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>GDT_model.edmx</DependentUpon>
     </Compile>
     <Compile Include="DB\InputParam.cs">
       <DependentUpon>DB_Model.tt</DependentUpon>
@@ -173,19 +159,12 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EntityDeploy Include="DB\GDT_model.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>GDT_model.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <EntityDeploy Include="DB\DB_Model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DB_Model.Designer.cs</LastGenOutput>
     </EntityDeploy>
     <None Include="DB\DB_Model.edmx.diagram">
       <DependentUpon>DB_Model.edmx</DependentUpon>
-    </None>
-    <None Include="DB\GDT_model.edmx.diagram">
-      <DependentUpon>GDT_model.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -202,35 +181,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DB\DB_Model.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>DB_Model.Context.cs</LastGenOutput>
-      <DependentUpon>DB_Model.edmx</DependentUpon>
-    </Content>
-    <Content Include="DB\DB_Model.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DB_Model.edmx</DependentUpon>
-      <LastGenOutput>DB_Model.cs</LastGenOutput>
-    </Content>
-    <Content Include="DB\GDT_DataBase.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="DB\GDT_DataBase_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>GDT_DataBase.mdf</DependentUpon>
-    </Content>
-    <Content Include="DB\GDT_model.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GDT_model.edmx</DependentUpon>
-      <LastGenOutput>GDT_model.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="DB\GDT_model.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>GDT_model.edmx</DependentUpon>
-      <LastGenOutput>GDT_model.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.6.1 %28x86 и x64%29</ProductName>
@@ -244,6 +194,23 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="DB\DB_Model.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DB_Model.Context.cs</LastGenOutput>
+      <DependentUpon>DB_Model.edmx</DependentUpon>
+    </Content>
+    <Content Include="DB\DB_Model.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>DB_Model.edmx</DependentUpon>
+      <LastGenOutput>DB_Model.cs</LastGenOutput>
+    </Content>
+    <Content Include="DB\GDT_DataBase.mdf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DB\GDT_DataBase_log.ldf" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

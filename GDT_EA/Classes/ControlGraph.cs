@@ -36,13 +36,14 @@ namespace GDT_EA.Classes
             prev.Label.Width = 40;
             prev.Label.Height = 40;
             prev.Attr.Shape = Shape.Ellipse;
-
+            gr.AddNode(prev);
             Node cur;
             List<Node> local_ends = new List<Node>()
             { prev };
             foreach (var item in instructions)
             {
-                cur = new Node((cur_i++).ToString())
+               // cur = new Node((cur_i++).ToString())
+               cur = new Node (item.getLine())
                 {
                     UserData = item
                 };
@@ -84,13 +85,17 @@ namespace GDT_EA.Classes
             int count = parent_item.getChildCount();
             for (int i=0; i<count; i++)
             {
+                local_ends.Clear();
                 Node prev = parent_node;
+                local_ends.Add(prev);
                 Node cur = null;
                 OperationSet inst = parent_item.getChild(i);
                 for (int j=0; j<inst.Count(); j++)
                 {
                     IItem item = inst.getItem(j);
-                    cur = new Node((cur_i++).ToString())
+                    string name = item.getLine();
+                    //cur = new Node((cur_i++).ToString())
+                    cur = new Node(item.getLine())
                     {
                         UserData = item
                     };
@@ -113,21 +118,35 @@ namespace GDT_EA.Classes
             return result;
         }
 
-        private void Viewer_MouseClick(object sender, MouseEventArgs e)
+        //private void Viewer_MouseClick(object sender, MouseEventArgs e)
+        public void setChecked()
         {
-            if (viewer.SelectedObject is Node)
-            {
-                Node selected = (viewer.SelectedObject as Node);
-                if (selected.Attr.Color != selectedColor)
-                {
-                    //выделить цветом узел и текст
-                    selected.Attr.Color = selectedColor;
+            //if (viewer.SelectedObject is Node)
+            //{
+            //    Node selected = (viewer.SelectedObject as Node);
+            //    if (selected.Attr.Color != selectedColor)
+            //    {
+            //        //выделить цветом узел и текст
+            //        selected.Attr.Color = selectedColor;
 
-                }
-            }
+            //    }
+            //}
+
         }
 
-        
+        public List<IItem> getAllSelected()
+        {
+            List<IItem> result_lst = new List<IItem>();
+            foreach (var ent in viewer.Entities)
+            {
+                
+                if (ent.MarkedForDragging && ent is IViewerNode)
+                {
+                    result_lst.Add((((ent as IViewerNode).Node.UserData) as IItem));
+                }
+            }
+            return result_lst;
+        }        
 
     }
 }

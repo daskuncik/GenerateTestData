@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Хранилище GDT_DataBaseModel1" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Хранилище GDT_DataBaseModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Func">
           <Key>
             <PropertyRef Name="Id" />
@@ -146,7 +146,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Хранилище GDT_DataBaseModel1Container">
+        <EntityContainer Name="Хранилище GDT_DataBaseModelContainer">
           <EntitySet Name="Func" EntityType="Self.Func" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InputParam" EntityType="Self.InputParam" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Project" EntityType="Self.Project" Schema="dbo" store:Type="Tables" />
@@ -186,7 +186,7 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="GDT_DataBaseModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="GDT_DataBaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Func">
           <Key>
             <PropertyRef Name="Id" />
@@ -383,9 +383,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Хранилище GDT_DataBaseModel1Container" CdmEntityContainer="GDT_DBEntities">
+        <EntityContainerMapping StorageEntityContainer="Хранилище GDT_DataBaseModelContainer" CdmEntityContainer="GDT_DBEntities">
           <EntitySetMapping Name="Funcs">
-            <EntityTypeMapping TypeName="GDT_DataBaseModel1.Func">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.Func">
               <MappingFragment StoreEntitySet="Func">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -395,7 +395,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="InputParams">
-            <EntityTypeMapping TypeName="GDT_DataBaseModel1.InputParam">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.InputParam">
               <MappingFragment StoreEntitySet="InputParam">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -405,7 +405,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Projects">
-            <EntityTypeMapping TypeName="GDT_DataBaseModel1.Project">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.Project">
               <MappingFragment StoreEntitySet="Project">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -415,7 +415,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="QuickSearches">
-            <EntityTypeMapping TypeName="GDT_DataBaseModel1.QuickSearch">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.QuickSearch">
               <MappingFragment StoreEntitySet="QuickSearch">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="ProjectId" ColumnName="ProjectId" />
@@ -425,7 +425,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Types">
-            <EntityTypeMapping TypeName="GDT_DataBaseModel1.Type">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.Type">
               <MappingFragment StoreEntitySet="Type">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
@@ -435,7 +435,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Variables">
-            <EntityTypeMapping TypeName="GDT_DataBaseModel1.Variable">
+            <EntityTypeMapping TypeName="GDT_DataBaseModel.Variable">
               <MappingFragment StoreEntitySet="Variable">
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />

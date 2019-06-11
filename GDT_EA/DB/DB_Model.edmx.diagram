@@ -4,20 +4,20 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="3e725aeefe5a49b99b254f5cc35c747f" Name="Diagram1">
-        <EntityTypeShape EntityType="GDT_DataBaseModel1.Func" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GDT_DataBaseModel1.InputParam" Width="1.5" PointX="8.25" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="GDT_DataBaseModel1.Project" Width="1.5" PointX="1.5" PointY="9.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="GDT_DataBaseModel1.QuickSearch" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GDT_DataBaseModel1.Type" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="GDT_DataBaseModel1.Variable" Width="1.5" PointX="6" PointY="4.5" IsExpanded="true" />
-        <AssociationConnector Association="GDT_DataBaseModel1.FK_Func" ManuallyRouted="false" />
-        <AssociationConnector Association="GDT_DataBaseModel1.FK_Search" ManuallyRouted="false" />
-        <AssociationConnector Association="GDT_DataBaseModel1.FK_Type" ManuallyRouted="false" />
-        <AssociationConnector Association="GDT_DataBaseModel1.FK_Type_fromInput" ManuallyRouted="false" />
-        <AssociationConnector Association="GDT_DataBaseModel1.FK_Project" ManuallyRouted="false" />
-        <AssociationConnector Association="GDT_DataBaseModel1.FK_VarSearch" ManuallyRouted="false" />
-        <AssociationConnector Association="GDT_DataBaseModel1.FK_VarType" ManuallyRouted="false" />
+      <Diagram DiagramId="631a4647af1143eb863e36295cba1c4c" Name="Diagram1">
+        <EntityTypeShape EntityType="GDT_DataBaseModel.Func" Width="1.5" PointX="3" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GDT_DataBaseModel.InputParam" Width="1.5" PointX="8.25" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="GDT_DataBaseModel.Project" Width="1.5" PointX="1.5" PointY="9.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="GDT_DataBaseModel.QuickSearch" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GDT_DataBaseModel.Type" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="GDT_DataBaseModel.Variable" Width="1.5" PointX="6" PointY="4.5" IsExpanded="true" />
+        <AssociationConnector Association="GDT_DataBaseModel.FK_Func" ManuallyRouted="false" />
+        <AssociationConnector Association="GDT_DataBaseModel.FK_Search" ManuallyRouted="false" />
+        <AssociationConnector Association="GDT_DataBaseModel.FK_Type" ManuallyRouted="false" />
+        <AssociationConnector Association="GDT_DataBaseModel.FK_Type_fromInput" ManuallyRouted="false" />
+        <AssociationConnector Association="GDT_DataBaseModel.FK_Project" ManuallyRouted="false" />
+        <AssociationConnector Association="GDT_DataBaseModel.FK_VarSearch" ManuallyRouted="false" />
+        <AssociationConnector Association="GDT_DataBaseModel.FK_VarType" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

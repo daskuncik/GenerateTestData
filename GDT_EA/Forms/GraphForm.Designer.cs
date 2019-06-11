@@ -28,32 +28,25 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.rtb = new System.Windows.Forms.RichTextBox();
-            this.panel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.btn = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // rtb
+            // btn
             // 
-            this.rtb.Location = new System.Drawing.Point(336, 12);
-            this.rtb.Name = "rtb";
-            this.rtb.Size = new System.Drawing.Size(285, 418);
-            this.rtb.TabIndex = 0;
-            this.rtb.Text = "";
-            // 
-            // panel1
-            // 
-            this.panel1.Location = new System.Drawing.Point(12, 12);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(318, 418);
-            this.panel1.TabIndex = 2;
+            this.btn.Location = new System.Drawing.Point(12, 27);
+            this.btn.Name = "btn";
+            this.btn.Size = new System.Drawing.Size(91, 30);
+            this.btn.TabIndex = 0;
+            this.btn.Text = "Выполнить ";
+            this.btn.UseVisualStyleBackColor = true;
+            this.btn.Click += new System.EventHandler(this.button1_Click);
             // 
             // GraphForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(633, 442);
-            this.Controls.Add(this.panel1);
-            this.Controls.Add(this.rtb);
+            this.ClientSize = new System.Drawing.Size(612, 520);
+            this.Controls.Add(this.btn);
             this.Name = "GraphForm";
             this.Text = "GraphForm";
             this.ResumeLayout(false);
@@ -62,7 +55,6 @@
 
         #endregion
 
-        private System.Windows.Forms.RichTextBox rtb;
-        private System.Windows.Forms.FlowLayoutPanel panel1;
+        private System.Windows.Forms.Button btn;
     }
 }
